@@ -1,0 +1,467 @@
+    <!-- Request Details Container -->
+    {% if current_user.user_depart.dep_name.lower() == 'facility'%}
+    <!-- Check List Container -->
+      <section class="col-md-9">
+            <form action="" method="post">
+              <input type="hidden" name="facility-check">
+        <div class="row">
+        <!-- Check List -->
+        <div class="col-md-6 list-group">
+          <label class="list-group-item active" aria-current="true">
+            Desktop
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.pc == 1 %}
+            <input class="form-check-input me-1" name="pc" type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name="pc" type="checkbox" value="">
+            {%endif%}
+            PC
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.screens == 1 %}
+            <input class="form-check-input me-1" type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name='screens' type="checkbox" value="">
+            {%endif%}
+            Screens
+          </label>
+        </div>
+        <!-- End Check List -->
+        <!-- Check List -->
+        <div class="col-md-6 list-group">
+          <label class="list-group-item active" aria-current="true">
+            Asset
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.desktop == 1 %}
+            <input class="form-check-input me-1" name="desktop" type="checkbox" value="" disabled checked >
+            {%else%}
+            <input class="form-check-input me-1" name="desktop" type="checkbox" value="" >
+            {%endif%}
+            Desktop
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.labtop == 1 %}
+            <input class="form-check-input me-1" name="labtop" type="checkbox" value="" disabled checked >
+            {%else%}
+            <input class="form-check-input me-1" name="labtop" type="checkbox" value="">
+            {%endif%}
+            Labtop
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.cebox == 1 %}
+            <input class="form-check-input me-1" name="cebox" type="checkbox" value="" disabled checked >
+            {%else%}
+            <input class="form-check-input me-1" name="cebox" type="checkbox" value="" >
+            {%endif%}
+            Cebox
+          </label>
+        </div>
+        <!-- End Check List -->
+        <!-- Check List -->
+        <div class="col-md-6 list-group">
+          <label class="list-group-item active" aria-current="true">
+            Headset
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.jack == 1 %}
+            <input class="form-check-input me-1" name="jack" type="checkbox" value="" disabled checked> 
+            {% else %}
+            <input class="form-check-input me-1" name="jack" type="checkbox" value="">
+            {%endif%}
+            Jack
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.usb == 1 %}
+            <input class="form-check-input me-1" name="usb" type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name="usb" type="checkbox" value="">
+            {%endif%}
+            USB
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.rj11 == 1 %}
+            <input class="form-check-input me-1" name="rj11" type="checkbox" value=""disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name="rj11" type="checkbox" value="">
+            {%endif%}
+            RJ11
+          </label>
+        </div>
+        <!-- End Check List -->
+        <!-- Check List -->
+        <div class="col-md-6 list-group">
+          <label class="list-group-item active" aria-current="true">
+            Mobile
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.on_cell == 1 %}
+            <input class="form-check-input me-1" name="on-cell" type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name="on-cell" type="checkbox" value="">
+            {%endif%}
+            On-cell
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.proffess == 1 %}
+            <input class="form-check-input me-1" name="proffess" type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name="proffess" type="checkbox" value="">
+            {%endif%}
+            Professional
+        </div>
+        <!-- End Check List -->
+        <!-- Check List -->
+        <div class="col-md-6 list-group">
+          <label class="list-group-item active" aria-current="true">
+            Key
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.locker == 1 %}
+            <input class="form-check-input me-1" name="locker" type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name="locker" type="checkbox" value="">
+            {%endif%}
+            Locker
+          </label>
+          <label class="list-group-item">
+            {% if dep.f_dep_req.office == 1 %}
+            <input class="form-check-input me-1" name='office' type="checkbox" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" name='office' type="checkbox" value="">
+            {%endif%}
+            Office
+        </div>
+        <!-- End Check List -->
+        <!-- Check Item -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-floating">
+              {% if dep.f_dep_req.comment %}
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                style="height: 100px" name="comment" disabled >{{dep.f_dep_req.comment}}</textarea>
+                {%else%}
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                style="height: 100px" name="comment"></textarea>
+                {%endif%}
+              <label for="floatingTextarea2">Comments</label>
+            </div>
+          </div>
+        </div>
+        <!-- End Check Itme -->
+        {%if dep.facility_check == None %}
+        <button type="submit" class="btn btn-primary">Update Request</button>
+        {%endif%}
+        
+        </div>
+          </form>
+      </section>
+    <!-- End Check List Container -->
+    {%endif%}
+    {% if current_user.user_depart.dep_name.lower() == 'it'%}
+    <!-- Check List Container -->
+    <section class="col-md-9">
+      <form action="" method="post">
+        <input type="hidden" name="it-check">
+      <div class="row">
+        <div class="col-md-12">
+          <h5>IT Check List Section</h5>
+        </div>
+      </div>
+      <!-- Check List -->
+      <div class="list-group">
+        <label class="list-group-item">
+          {% if dep.it_dep_req.access == 1 %}
+          <input class="form-check-input me-1" type="checkbox" name="access" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" type="checkbox" name="access" value="">
+          {%endif%}
+          Access Revoke
+        </label>
+        <label class="list-group-item">
+          {% if dep.it_dep_req.internal_email == 1 %}
+          <input class="form-check-input me-1" type="checkbox" name="internal-email" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" type="checkbox" name="internal-email" value="">
+          {%endif%}
+          Internal Email Disabling / Removing
+        </label>
+        <label class="list-group-item">
+          {% if dep.it_dep_req.external_email == 1 %}
+          <input class="form-check-input me-1" type="checkbox" name="external-email" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" type="checkbox" name="external-email" value="">
+          {%endif%}
+          External Email Disabling / Removing
+        </label>
+        <label class="list-group-item">
+          {% if dep.it_dep_req.vpn == 1 %}
+          <input class="form-check-input me-1" type="checkbox" name="vpn" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" type="checkbox" name="vpn" value="">
+          {%endif%}
+          Soft VPN (WFH) Disabling / Removing
+        </label>
+
+      </div>
+      <!-- End Check List -->
+      <!-- Check Item -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-floating">
+            {%if dep.it_dep_req.comment %}
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+              style="height: 100px; width:500px;" name="comment" disabled>{{dep.it_dep_req.comment}}</textarea>
+            {%else%}
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+              style="height: 100px; width:500px;" name="comment"></textarea>
+              {%endif%}
+            <label for="floatingTextarea2">Comments</label>
+          </div>
+        </div>
+      </div>
+      <!-- End Check Itme -->
+      <button type="submit" class="btn btn-primary">Update Request</button>
+    </form>
+    </section>
+    <!-- End Check List Container -->
+    {%endif%}
+
+    {% if current_user.user_depart.dep_name.lower() == 'hr'%}
+    <!-- Check List Container -->
+    <section class="col-md-9">
+<div class="card">
+  <div class="card-header">
+    Facility Check List
+  </div>
+  <div class="card-body">
+    <div class="row">
+
+      <!-- Start Facility check List Section -->
+      <!-- Check List -->
+      <div class="col-md-6 list-group">
+        <label class="list-group-item active" aria-current="true">
+          Desktop
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.pc == 1 %}
+          <input class="form-check-input me-1" name="pc" type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name="pc" type="checkbox" value="" disabled>
+          {%endif%}
+          PC
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.screens == 1 %}
+          <input class="form-check-input me-1" type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name='screens' type="checkbox" value="" disabled>
+          {%endif%}
+          Screens
+        </label>
+      </div>
+      <!-- End Check List -->
+      <!-- Check List -->
+      <div class="col-md-6 list-group">
+        <label class="list-group-item active" aria-current="true">
+          Asset
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.desktop == 1 %}
+          <input class="form-check-input me-1" name="desktop" type="checkbox" value="" disabled checked >
+          {%else%}
+          <input class="form-check-input me-1" name="desktop" type="checkbox" value="" disabled>
+          {%endif%}
+          Desktop
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.labtop == 1 %}
+          <input class="form-check-input me-1" name="labtop" type="checkbox" value="" disabled checked >
+          {%else%}
+          <input class="form-check-input me-1" name="labtop" type="checkbox" value="" disabled>
+          {%endif%}
+          Labtop
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.cebox == 1 %}
+          <input class="form-check-input me-1" name="cebox" type="checkbox" value="" disabled checked >
+          {%else%}
+          <input class="form-check-input me-1" name="cebox" type="checkbox" value="" disabled>
+          {%endif%}
+          Cebox
+        </label>
+      </div>
+      <!-- End Check List -->
+      <!-- Check List -->
+      <div class="col-md-6 list-group">
+        <label class="list-group-item active" aria-current="true">
+          Headset
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.jack == 1 %}
+          <input class="form-check-input me-1" name="jack" type="checkbox" value="" disabled checked> 
+          {% else %}
+          <input class="form-check-input me-1" name="jack" type="checkbox" value="" disabled>
+          {%endif%}
+          Jack
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.usb == 1 %}
+          <input class="form-check-input me-1" name="usb" type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name="usb" type="checkbox" value="" disabled>
+          {%endif%}
+          USB
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.rj11 == 1 %}
+          <input class="form-check-input me-1" name="rj11" type="checkbox" value=""disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name="rj11" type="checkbox" value="" disabled>
+          {%endif%}
+          RJ11
+        </label>
+      </div>
+      <!-- End Check List -->
+      <!-- Check List -->
+      <div class="col-md-6 list-group">
+        <label class="list-group-item active" aria-current="true">
+          Mobile
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.on_cell == 1 %}
+          <input class="form-check-input me-1" name="on-cell" type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name="on-cell" type="checkbox" value="" disabled>
+          {%endif%}
+          On-cell
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.proffess == 1 %}
+          <input class="form-check-input me-1" name="proffess" type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name="proffess" type="checkbox" value="" disabled>
+          {%endif%}
+          Professional
+      </div>
+      <!-- End Check List -->
+      <!-- Check List -->
+      <div class="col-md-6 list-group">
+        <label class="list-group-item active" aria-current="true">
+          Key
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.locker == 1 %}
+          <input class="form-check-input me-1" name="locker" type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name="locker" type="checkbox" value="" disabled>
+          {%endif%}
+          Locker
+        </label>
+        <label class="list-group-item">
+          {% if dep.f_dep_req.office == 1 %}
+          <input class="form-check-input me-1" name='office' type="checkbox" value="" disabled checked>
+          {%else%}
+          <input class="form-check-input me-1" name='office' type="checkbox" value="" disabled>
+          {%endif%}
+          Office
+      </div>
+      <!-- End Check List -->
+      <!-- Check Item -->
+        <div class="col-md-6 list-group">
+          <label class="list-group-item active" aria-current="true">
+            Comments
+          </label>
+          <div class="form-floating">
+            {% if dep.f_dep_req.comment %}
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+              style="height: 100px" name="comment" disabled >{{dep.f_dep_req.comment}}</textarea>
+              {%else%}
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+            style="height: 100%;" name="comment" disabled>No Comments!</textarea>
+              {%endif%}
+            <label for="floatingTextarea2">Comments</label>
+          </div>
+      </div>
+      <!-- End Check Itme -->
+    </div>
+  </div>
+    </div>
+    <!-- End Facility check List Section -->
+    <!-- IT check List Section -->
+    <div class="card">
+      <div class="card-header">
+        IT Check List
+      </div>
+      <div class="card-body">
+    <div class="row">
+       <!-- Check List -->
+       <div class="col-md-6">
+        <div class="list-group">
+          <label class="list-group-item active" aria-current="true">
+            Access
+          </label>
+          <label class="list-group-item">
+            {% if dep.it_dep_req.access == 1 %}
+            <input class="form-check-input me-1" type="checkbox" name="access" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" type="checkbox" name="access" value="" disabled>
+            {%endif%}
+            Access Revoke
+          </label>
+          <label class="list-group-item">
+            {% if dep.it_dep_req.internal_email == 1 %}
+            <input class="form-check-input me-1" type="checkbox" name="internal-email" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" type="checkbox" name="internal-email" value="" disabled>
+            {%endif%}
+            Internal Email Disabling / Removing
+          </label>
+          <label class="list-group-item">
+            {% if dep.it_dep_req.external_email == 1 %}
+            <input class="form-check-input me-1" type="checkbox" name="external-email" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" type="checkbox" name="external-email" value="" disabled>
+            {%endif%}
+            External Email Disabling / Removing
+          </label>
+          <label class="list-group-item">
+            {% if dep.it_dep_req.vpn == 1 %}
+            <input class="form-check-input me-1" type="checkbox" name="vpn" value="" disabled checked>
+            {%else%}
+            <input class="form-check-input me-1" type="checkbox" name="vpn" value="" disabled>
+            {%endif%}
+            Soft VPN (WFH) Disabling / Removing
+          </label>
+  
+        </div>
+       </div>
+       <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12 list-group">
+            <label class="list-group-item active" aria-current="true">
+              Comments
+            </label>
+            <div class="form-floating">
+              {%if dep.it_dep_req.comment %}
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                style="height: 100%;" name="comment" disabled>{{dep.it_dep_req.comment}}</textarea>
+              {%else%}
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                style="height: 100%;" name="comment" disabled>No Comments!</textarea>
+                {%endif%}
+              <label for="floatingTextarea2">Comments</label>
+            </div>
+          </div>
+        </div>
+       </div>
+       
+      <!-- End Check List -->
+      <!-- End IT check List Section -->
+      </div>
+      </div>
+      </div>
+    </section>
+    <!-- End Check List Container -->
+    {%endif%}

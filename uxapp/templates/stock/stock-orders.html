@@ -1,0 +1,121 @@
+<!-- Orders Boared Template -->
+{% extends "dashboard.html" %}
+{% block in_dashboard %}
+<section class="orders-boared">
+    <div class="col-md-12">
+         <!-- Start Error Handling Section -->
+         {%include 'error-handle.html'%}
+         <!-- End Error Handling Section -->
+        <div class="container-fluid">
+           <!-- Start Add Category -->
+        <div class="modal fade" id="new-stock-in-modal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="post" class="needs-validation" novalidate>
+                <div class="form-group">
+                  <label for="stock-in-group" class="col-form-label">Delivery Title</label>
+                  <div class="input-group has-validation">
+                  <input type="text" class="form-control"  name="delv-title" required>
+                  <div class="invalid-feedback">
+                    Please enter the title.
+                  </div>
+                </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group has-validation"></div>
+                  <label for="stock-in-group" class="col-form-label">Date</label>
+                  <input id="date" class="form-control" type="date" name="delv-date" value="" required>
+                  <div class="invalid-feedback">
+                    Please enter the date.
+                  </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="Cancel">Cancel</button>
+                  <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                    data-bs-placement="bottom" title="Edit">Add <i class="bi bi-arrow-90deg-right"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+       <!-- End Add Category -->
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                            </div>
+                            <div class="col-sm-7">
+                                <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#new-stock-in-modal"><i class="bi bi-person-plus"></i> <span>Add New
+                                        order</span></a>
+                                <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+                                    <span>Export to Excel</span></a>
+                                <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+                                    <span>Import From Excel</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <table id='hc-table' class="table table-striped table-bordered table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th class='col-1' tyle="width: 5%">#</th>
+                                <th class='col-2' tyle="width: 10%">Order ID</th>
+                                <th class='col-6' tyle="width: 62.5%">Title</th>
+                                <th class='col-3' tyle="width: 22.5%">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-tb">
+                            {% for order in orders%}
+                            <tr>
+                                <td> {{ loop.index0 +1 }}</td>
+                                <td><a href='{{url_for("stock_routes.stock_order_view", order_id=order.id)}}'>#{{order.id}}</a></td>
+                                <td>{{order.title}}</td>
+                                <td>
+                                  {% if order.date%}
+                                  {{order.date.strftime('%Y-%m-%d')}}
+                                {%endif%}
+                                </td>
+
+                            </tr>
+                       
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+  // Form Validation
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{%endblock%}

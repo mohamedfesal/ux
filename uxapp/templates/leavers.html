@@ -1,0 +1,312 @@
+<!-- Search Template -->
+{% extends "dashboard.html" %}
+{% block pcdetails %}
+<section class="agents-mgm">
+    <div class="col-md-12">
+      <!-- Start Error Handling Section -->
+      {%include 'error-handle.html'%}
+      <!-- End Error Handling Section -->
+        <!-- Start Add agent -->
+        <!-- <div class="modal fade" id="addagent" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New agent</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <input type="hidden" name="add-agent-form" value="add-agent-form">
+                                    <label for="f-name" class="col-form-label">First Name</label>
+                                    <input type="text" class="form-control" name="f-name" id="f-name" value="">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="l-name" class="col-form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="l-name" id="l-name" value="">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-agentname" class="col-form-label">agentname</label>
+                                <input type="text" class="form-control" name="agentname" id="add-agentname" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-bio" class="col-form-label">Biometric</label>
+                                <input type="text" class="form-control" name="add-bio" id="add-bio" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-email" class="col-form-label">Email</label>
+                                <input type="email" class="form-control" name="add-email" id="add-email" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-pass" class="col-form-label">Temp Password</label>
+                                <input type="text" class="form-control" name="add-pass" id="add-pass" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-role" class="col-form-label">Role</label>
+                                <select class="form-select add-type" aria-label="Default select example"
+                                    name="add-role">
+                                    <option value="1">Admin</option>
+                                    <option value="2" selected>agent</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-dep" class="col-form-label">Department</label>
+                                <select class="form-select add-type" aria-label="Default select example" name="add-dep">
+                                    <option value="1" selected>IT</option>
+                                    <option value="2">Facility</option>
+                                </select>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" title="Move To Returned">Add <i
+                                        class="bi bi-arrow-90deg-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+        <!-- End Add agent -->
+        <form id="upload-leavers" action="{{url_for('hc_routes.leavers')}}" method="post" enctype="multipart/form-data"
+            class="edit-item shadow p-3 mb-5 bg-body rounded">
+            <div class="custom-file">
+                <h3> Import From Excel Sheet</h3>
+                <input type="file" class="custom-file-input" id="lvexcel" name="lvexcel" required>
+                <label class="custom-file-label" for="hcexcel">Choose file</label>
+                <!-- <button class="btn btn-primary edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="Submit Edits"><i class="bi bi-check"></i></button> -->
+                <button class="btn btn-primary" type="submit">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Upload
+                </button>
+            </div>
+        </form>
+        <div class="modal fade" id="success-msg" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+					
+                    <div class="modal-body">
+                       
+						<div class="success-pop">
+							<i class="far fa-check-circle"></i>
+							<h3>File Upladed Successfully!</h3>
+ 						</div>
+                         
+                    </div>
+					
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="row">
+                        {%include 'search-form.html'%}
+                    </div>
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2><b>Leavers</b></h2>
+                            </div>
+                            <div class="col-sm-7">
+                                <a href="#" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#addagent"><i class="bi bi-person-plus"></i> <span>Add New
+                                        agent</span></a>
+                                <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+                                    <span>Export to Excel</span></a>
+                                <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+                                    <span>Import From Excel</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="hc-table" class="table table-striped table-bordered table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Biometric</th>
+                                <th>Name</th>
+                                <th>Last Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Reason</th>
+                                <th>Sub Reason</th>
+                                <th>Type Of Departure</th>
+                                <th>Department</th>
+                                <th>Job Title</th>
+                                <th>Manager</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hc-tb">
+                            {% for agent in leavers%}
+                            <tr>
+                                <td> {{ loop.index0 +1 }}</td>
+                                <td>{{agent.bio}}</td>
+                                <td>{{agent.name}}</td>
+                                <td>{{agent.l_name}}</td>
+                                {% if agent.start_date != None %}
+                                <td>{{agent.start_date.strftime("%d/%m/%Y")}} </td>
+                                {% else:%}
+                                <td>Not Set! </td>
+                                {%endif%}
+                                {% if agent.end_date != None %}
+                                <td>{{agent.end_date.strftime("%d/%m/%Y")}} </td>
+                                {% else:%}
+                                <td>Not Set! </td>
+                                {%endif%}
+                                <td>{{agent.reason}}</td>
+                                <td>{{agent.sub_reason}}</td>
+                                <td>{{agent.departure_type}}</td>
+                                <td>{{agent.depart}}</td>
+                                <td>{{agent.job_title}}</td>
+                                <th>{{agent.manager}}</th>
+                                <td>
+                                    <a href="#" class="settings" title="Settings" data-id="{{agent.id}}"
+                                        data-toggle="tooltip" data-bs-toggle="modal"
+                                        data-bs-target="#editagent-{{agent.id}}"><i class="bi bi-gear"></i></a>
+                                    <a href="#" class="delete" title="Delete" data-toggle="tooltip"
+                                        data-bs-toggle="modal" data-bs-target="#delete-agent-{{agent.id}}"><i
+                                            class="bi bi-x-circle"></i></a>
+                                    <!-- Delete agent Confirm -->
+                                    <div class="modal fade" id="delete-agent-{{agent.id}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete agent</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are You Sure You Want Delete {{agent.name}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Delete agent Confirm -->
+
+                                </td>
+                            </tr>
+                            <!-- Start Edit agent -->
+                            <!-- <div class="modal fade" id="editagent-{{agent.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit {{agent.f_name}}'s Profile</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="post">
+                                                <div class="row mb-3">
+                                                    <input type="hidden" name="edit-agent-form" value="edit-agent-form">
+                                                    <input type="hidden" class="form-control" name="agent-id"
+                                                        id="agent-id" value="{{agent.id}}">
+                                                    <div class="col-md-6">
+                                                        <label for="f-name" class="col-form-label">First Name</label>
+                                                        <input type="text" class="form-control" name="f-name"
+                                                            id="f-name" value="{{agent.f_name}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="l-name" class="col-form-label">Last Name</label>
+                                                        <input type="text" class="form-control" name="l-name"
+                                                            id="l-name" value="{{agent.l_name}}">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="add-agentname" class="col-form-label">agentname</label>
+                                                    <input type="text" class="form-control" name="agentname"
+                                                        id="add-agentname" value="{{agent.agentname}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-bio" class="col-form-label">Biometric</label>
+                                                    <input type="text" class="form-control" name="edit-bio" id="edit-bio"
+                                                        value="{{agent.bio}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-email" class="col-form-label">Email</label>
+                                                    <input type="email" class="form-control" name="edit-email"
+                                                        id="edit-email" value="{{agent.email}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-pass" class="col-form-label">Password Reset</label>
+                                                    <input type="password" class="form-control" name="edit-pass"
+                                                        id="edit-pass" value="">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-role" class="col-form-label">Role</label>
+                                                    <select class="form-select add-type"
+                                                        aria-label="Default select example" name="edit-role">
+                                                        {%if agent.role == 1:%}
+                                                        <option value="1" selected>Admin</option>
+                                                        <option value="2">agent</option>
+                                                        {%else:%}
+                                                        <option value="1">Admin</option>
+                                                        <option value="2" selected>agent</option>
+                                                        {%endif%}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-dep" class="col-form-label">Department</label>
+                                                    <select class="form-select add-type"
+                                                        aria-label="Default select example" name="edit-dep">
+                                                        {%if agent.depart == 1:%}
+                                                        <option value="1" selected>IT</option>
+                                                        <option value="2">Facility</option>
+                                                        {%else:%}
+                                                        <option value="1">IT</option>
+                                                        <option value="2" selected>Facility</option>
+                                                        {%endif%}
+                                                    </select>
+                                                </div>
+                                                <div class="form-check form-switch mb-3">
+                                                    {%if agent.statue == 1:%}
+                                                    <input class="form-check-input" name="agent-stat" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">agent Statue</label>
+                                                    {%else:%}
+                                                    <input class="form-check-input"  name="agent-stat" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">agent Statue</label>
+                                                    {%endif%}
+                                                  </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                                                        data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                        title="Move To Returned">Update agent <i
+                                                            class="bi bi-arrow-90deg-right"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- End Edit agent -->
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

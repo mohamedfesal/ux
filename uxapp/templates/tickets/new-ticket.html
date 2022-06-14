@@ -1,0 +1,158 @@
+<div class="modal-body">
+
+    <form id="objectform-ticket-create-6227234e10bd3"
+        class="form_cosy form_object_state_new portal_form_handler form_handler" method="POST" action="">
+        <input type="hidden" name="new_ticket" value="{{current_user.id}}">
+        <div class="form_alerts">
+            <div class="alert alert-success" role="alert" style="display: none;"></div>
+            <div class="alert alert-warning" role="alert" style="display: none;"></div>
+            <div class="alert alert-error alert-danger" role="alert" style="display: none;"></div>
+        </div>
+        <div class="form_fields field_set">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div data-field-id="service_id" data-form-path="objectform-ticket-create-6227234e10bd3"
+                        class="form_field_cosy portal_form_field form_field">
+                        <div class="form-group form_group_small ">
+                            <div class="form_field_label"><label for="field_service_id_6227234e33d34"
+                                    class="control-label">Service</label></div>
+                            <div class="form_field_control">
+                                <div class="help-block"></div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <select id="field_service_id_6227234e33d34" name="service_id" class="form-control">
+                                            <option value="">-- select one --</option>
+                                            {% for tcat in ticket_cat %}
+                                            <option value="{{tcat.id}}">{{tcat.name}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-0 col-sm-0 col-md-0 text-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div data-field-id="servicesubcategory_id" data-form-path="objectform-ticket-create-6227234e10bd3"
+                        class="form_field_cosy portal_form_field form_field">
+                        <div class="form-group form_group_small ">
+                            <div class="form_field_label"><label for="field_servicesubcategory_id_6227235100e1e"
+                                    class="control-label">Service subcategory</label></div>
+                            <div class="form_field_control">
+                                <div class="help-block"></div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <select id="field_servicesubcategory_id_6227235100e1e" name="servicesubcategory_id"
+                                            class="form-control">
+                                          
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-0 col-sm-0 col-md-0 text-right"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="service_details_placeholder" _altered_in="itop-request-template-portal">
+                <div data-field-id="service_details" data-form-path="objectform-ticket-create-6227234e10bd3"
+                    class="subform_field form_field">
+                    <div class="hidden">
+                        <fieldset>
+                            <div id="fieldset_field_service_details_6227237539f15" class="field_set">
+                                <div data-field-id="legacy"
+                                    data-form-path="objectform-ticket-create-6227234e10bd3-subform_service_details"
+                                    class="form_field_cosy portal_form_field form_field"><input type="hidden"
+                                        id="field_legacy_6227237539f29" name="legacy" value="0"></div>
+                                <div data-field-id="extradata_id"
+                                    data-form-path="objectform-ticket-create-6227234e10bd3-subform_service_details"
+                                    class="form_field_cosy portal_form_field form_field"><input type="hidden"
+                                        id="field_extradata_id_6227237539f30" name="extradata_id" value=""></div>
+                                <div data-field-id="current_template_id"
+                                    data-form-path="objectform-ticket-create-6227234e10bd3-subform_service_details"
+                                    class="form_field_cosy portal_form_field form_field"><input type="hidden"
+                                        id="field_current_template_id_6227237539f32" name="current_template_id"
+                                        value=""></div>
+                                <div data-field-id="current_template_data"
+                                    data-form-path="objectform-ticket-create-6227234e10bd3-subform_service_details"
+                                    class="form_field_cosy portal_form_field form_field"><input type="hidden"
+                                        id="field_current_template_data_6227237539f34" name="current_template_data"
+                                        value=""></div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div data-field-id="impact" data-form-path="objectform-ticket-create-6227234e10bd3"
+                        class="form_field_cosy portal_form_field form_field">
+                        <div class="form-group form_group_small form_mandatory">
+                            <div class="form_field_label"><label for="field_impact_6227234e392fe"
+                                    class="control-label">Impact</label></div>
+                            <div class="form_field_control">
+                                <div class="help-block"></div><select id="field_impact_6227234e392fe" name="impact"
+                                    class="form-control">
+                                    <option value="">-- select one --</option>
+                                    <option value="1" selected="">A department</option>
+                                    <option value="2">A service</option>
+                                    <option value="3">A person</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div data-field-id="urgency" data-form-path="objectform-ticket-create-6227234e10bd3"
+                        class="form_field_cosy portal_form_field form_field">
+                        <div class="form-group form_group_small form_mandatory">
+                            <div class="form_field_label"><label for="field_urgency_6227234e3933c"
+                                    class="control-label">Urgency</label></div>
+                            <div class="form_field_control">
+                                <div class="help-block"></div><select id="field_urgency_6227234e3933c" name="urgency"
+                                    class="form-control">
+                                    <option value="">-- select one --</option>
+                                    <option value="1">critical</option>
+                                    <option value="2">high</option>
+                                    <option value="3">medium</option>
+                                    <option value="4" selected="">low</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div data-field-id="title" data-form-path="objectform-ticket-create-6227234e10bd3"
+                    class="form_field_cosy portal_form_field form_field">
+                    <div class="form-group form_group_small form_mandatory">
+                        <div class="form_field_label"><label for="field_title_6227234e39359"
+                                class="control-label">Title</label></div>
+                        <div class="form_field_control">
+                            <div class="help-block"></div><input type="text" id="field_title_6227234e39359" name="title"
+                                value="" class="form-control" maxlength="255">
+                        </div>
+                    </div>
+                </div>
+                <div data-field-id="description" data-form-path="objectform-ticket-create-6227234e10bd3"
+                    class="form_field_cosy portal_form_field_html portal_form_field form_field">
+                    <div class="form-group form_mandatory">
+                        <div class="form_field_label"><label for="field_description_6227234e39377"
+                                class="control-label">Description</label></div>
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="description"></textarea>
+                                    <label for="floatingTextarea2">Description</label>
+                                  </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form_buttons">
+           <button type="submit" class="btn btn-primary">Create Ticket</button>
+        </div>
+    </form>
+</div>

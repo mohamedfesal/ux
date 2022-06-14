@@ -1,0 +1,144 @@
+{% for agent in hc_results%}
+                            <tr>
+                                <td> {{ loop.index0 +1 }}</td>
+                                <td>{{agent.bio}}</td>
+                                <td>{{agent.name}}</td>
+                                <td>{{agent.l_name}}</td>
+                                {% if agent.start_date != None %}
+                                <td>{{agent.start_date.strftime("%d/%m/%Y")}} </td>
+                                {% else:%}
+                                <td>Not Set! </td>
+                                {%endif%}
+                                <td>{{agent.depart}}</td>
+                                <td>{{agent.job_title}}</td>
+                                <td>
+                                    <a href="#" class="settings" title="Settings" data-id="{{agent.id}}"
+                                        data-toggle="tooltip" data-bs-toggle="modal"
+                                        data-bs-target="#editagent-{{agent.id}}"><i class="bi bi-gear"></i></a>
+                                    <a href="#" class="delete" title="Delete" data-toggle="tooltip"
+                                        data-bs-toggle="modal" data-bs-target="#delete-agent-{{agent.id}}"><i
+                                            class="bi bi-x-circle"></i></a>
+                                    <!-- Delete agent Confirm -->
+                                    <div class="modal fade" id="delete-agent-{{agent.id}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete agent</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are You Sure You Want Delete {{agent.name}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Delete agent Confirm -->
+
+                                </td>
+                            </tr>
+                            <!-- Start Edit agent -->
+                            <!-- <div class="modal fade" id="editagent-{{agent.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit {{agent.f_name}}'s Profile</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="post">
+                                                <div class="row mb-3">
+                                                    <input type="hidden" name="edit-agent-form" value="edit-agent-form">
+                                                    <input type="hidden" class="form-control" name="agent-id"
+                                                        id="agent-id" value="{{agent.id}}">
+                                                    <div class="col-md-6">
+                                                        <label for="f-name" class="col-form-label">First Name</label>
+                                                        <input type="text" class="form-control" name="f-name"
+                                                            id="f-name" value="{{agent.f_name}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="l-name" class="col-form-label">Last Name</label>
+                                                        <input type="text" class="form-control" name="l-name"
+                                                            id="l-name" value="{{agent.l_name}}">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="add-agentname" class="col-form-label">agentname</label>
+                                                    <input type="text" class="form-control" name="agentname"
+                                                        id="add-agentname" value="{{agent.agentname}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-bio" class="col-form-label">Biometric</label>
+                                                    <input type="text" class="form-control" name="edit-bio" id="edit-bio"
+                                                        value="{{agent.bio}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-email" class="col-form-label">Email</label>
+                                                    <input type="email" class="form-control" name="edit-email"
+                                                        id="edit-email" value="{{agent.email}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-pass" class="col-form-label">Password Reset</label>
+                                                    <input type="password" class="form-control" name="edit-pass"
+                                                        id="edit-pass" value="">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-role" class="col-form-label">Role</label>
+                                                    <select class="form-select add-type"
+                                                        aria-label="Default select example" name="edit-role">
+                                                        {%if agent.role == 1:%}
+                                                        <option value="1" selected>Admin</option>
+                                                        <option value="2">agent</option>
+                                                        {%else:%}
+                                                        <option value="1">Admin</option>
+                                                        <option value="2" selected>agent</option>
+                                                        {%endif%}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-dep" class="col-form-label">Department</label>
+                                                    <select class="form-select add-type"
+                                                        aria-label="Default select example" name="edit-dep">
+                                                        {%if agent.depart == 1:%}
+                                                        <option value="1" selected>IT</option>
+                                                        <option value="2">Facility</option>
+                                                        {%else:%}
+                                                        <option value="1">IT</option>
+                                                        <option value="2" selected>Facility</option>
+                                                        {%endif%}
+                                                    </select>
+                                                </div>
+                                                <div class="form-check form-switch mb-3">
+                                                    {%if agent.statue == 1:%}
+                                                    <input class="form-check-input" name="agent-stat" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">agent Statue</label>
+                                                    {%else:%}
+                                                    <input class="form-check-input"  name="agent-stat" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">agent Statue</label>
+                                                    {%endif%}
+                                                  </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                                                        data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                        title="Move To Returned">Update agent <i
+                                                            class="bi bi-arrow-90deg-right"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- End Edit agent -->
+                            {%endfor%}

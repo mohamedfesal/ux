@@ -1,0 +1,46 @@
+<!-- Index Template -- Home Page -->
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+    <div class="row">
+
+        <main class="form-signin">
+            <form name="login-form" action="{{redirect_url}}" method="post">
+              <img class="mb-4" src="{{url_for('static', filename='/imgs/logo.png')}}" alt="">
+              <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+          
+              <div class="form-floating">
+                <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="form-floating">
+                <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                <label for="floatingPassword">Password</label>
+              </div>
+                <!-- Start Error Handling Section -->
+                  {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        {% if category == 'message' %}
+                        <div class="alert alert-dismissible fade show alert-danger" role="alert">
+                            {{message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {%else%}
+                        <div class="alert alert-dismissible fade show {{ category }}" role="alert">
+                          {{message}}
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                  {% endwith %}
+                <!-- End Error Handling Section -->
+              <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            </form>
+          </main>         
+    </div>
+</div>
+  
+      
+{% endblock %}

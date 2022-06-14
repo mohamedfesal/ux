@@ -1,0 +1,145 @@
+<section>
+  <div class="container-fluid">
+    <div class="row">
+       <!-- Start Error Handling Section -->
+       {%include 'error-handle.html'%}
+       <!-- End Error Handling Section -->
+      <div class="card-group">
+        <!-- Card -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="m-r-10">
+                        <span class="btn btn-circle btn-lg bg-danger">
+                          <i class="bi bi-boxes text-white"></i>
+                        </span>
+                    </div>
+                    <div>
+                         All Items In Stock
+                    </div>
+                    <div class="ms-auto">
+                        <h2 class="m-b-0 font-light">000</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card -->
+        <!-- Card -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="m-r-10">
+                        <span class="btn btn-circle btn-lg btn-info">
+                          <i class="fas fa-clipboard-list text-white"></i>
+                        </span>
+                    </div>
+                    <div>
+                         Total Tickets
+                    </div>
+                    <div class="ms-auto">
+                        <h2 class="m-b-0 font-light">000</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card -->
+        <!-- Card -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="m-r-10">
+                        <span class="btn btn-circle btn-lg bg-success">
+                          <i class="fas fa-user-tie text-white"></i>
+                        </span>
+                    </div>
+                    <div>
+                        Total Headcount
+
+                    </div>
+                    <div class="ms-auto">
+                        <h2 class="m-b-0 font-light">000</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card -->
+        <!-- Card -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="m-r-10">
+                        <span class="btn btn-circle btn-lg bg-warning">
+                          <i class="fas fa-sign-out-alt text-white"></i>
+                        </span>
+                    </div>
+                    <div>
+                      Total Leavers
+                    </div>
+                    <div class="ms-auto">
+                        <h2 class="m-b-0 font-light">000</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card -->
+        <!-- Column -->
+
+
+    </div>
+      <h2 class="section-title"></h2>
+      <div class="col-xl-3 col-md-3 col-sm-12">
+        <div class="dash-item">
+          <h4>WFH Statistics</h4>
+          <div>{{wfh_today}} <span>PCs</span> Today</div>
+          <div>{{wfh_this_month}} <span>PCs</span> This Month</div>
+          <div>{{wfh_last_month}} <span>PCs</span> Last Month</div>
+          <div>{{wfh_this_year}} <span>PCs</span> This Year</div>
+          <div>{{wfh_last_year}} <span>PCs</span> last Year</div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-3 col-sm-12">
+        <div class="dash-item">
+          <h4>WFH PCs</h4>
+          <span>{{all_wfh_count}} PCs</span>
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-3 col-sm-12">
+        <div class="dash-item">
+          <h4>Extentions</h4>
+          <div>450 <span>EXT</span></div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-3 col-sm-12">
+        <div class="dash-item">
+          <h4>ALL PC</h4>
+          <div>{{all_pcs}} <span>PCs</span></div>
+          <div>{{all_pro_pcs}} <span>In Production</span></div>
+          <div>{{all_wfh_pcs}} <span>WFH</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  
+<script>
+  // WFH PCs Statistics
+  var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['WFH PCs On Site','WFH PCs Out Site'],
+        datasets: [{
+            label: 'Traffic',
+            data: ['{{wfh_on_count}}','{{wfh_out_count}}'],
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',                
+            ],            
+        }]
+    },
+    options: {
+        responsive: true,
+    }
+});
+</script>

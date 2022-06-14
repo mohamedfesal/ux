@@ -1,0 +1,178 @@
+<!-- PCs Details Template -->
+{% extends "dashboard.html" %}
+{% block pcdetails %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Add Pc Section -->
+        <div class="col-12">
+            <div class="edit-for">
+                <h3>Add New PC</h3>
+            </div>
+            <!-- Start Error Handling Section -->
+            {%include 'error-handle.html'%}
+            <!-- End Error Handling Section -->
+            <form id="add_pc" action="" method="post" class="edit-item shadow p-3 mb-5 bg-body rounded">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="hidden" name="addpc">
+                            <div>
+                                <label for="pc_number" class="form-label">PC Number</label>
+                                <input id="pc_number" type="number" name="pc_no" class="form-control" placeholder="55"
+                                    value="" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <label for="pc_host" class="form-label">PC Host Name</label>
+                                <input id="pc_host" name="pc_host" class="form-control" placeholder="EG-A0-F2-50"
+                                    value="" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="pbxuser" class="form-label">DID User</label>
+                            <input id="pbxuser" name="pbxuser" class="form-control" placeholder="30156" value="">
+                        </div>
+                        <div class="col-md-3">
+                            <div>
+                                <label for="ciscodid" class="form-label">DID Ext</label>
+                                <input id="ciscodid" name="ciscodid" class="form-control" placeholder="632564" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-controls">
+                    <button class="btn btn-primary edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="Submit Edits"><i class="bi bi-check"></i></button>
+                </div>
+            </form>
+        </div>
+        <!-- End Add Pc Section -->
+        <!-- Import WFH PCs from Excel Sheet -->
+        <div class="col-12">
+            <div class="import-sheet card">
+                <div class="custom-file card-body">
+                    <h3> Import From Excel Sheet</h3>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="upload-sheet">
+                        <input type="file" class="custom-file-input" id="pcexc" name="sheet">
+                        <label class="custom-file-label" for="pcexc">Choose file</label>
+                        <!-- <button class="btn btn-primary edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="Submit Edits"><i class="bi bi-check"></i></button> -->
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    Upload
+                                  </button>
+                    </form>
+                    
+                  </div>
+            </div>
+        </div>
+        <!-- End Import WFH PCs from Excel Sheet -->
+
+        <div class="col-md-12">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2><b>{{title}}</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addItem"><i
+                                class="bi bi-plus-lg"></i> <span>Add New Item</span></a>
+                        <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+                            <span>Export to Excel</span></a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row">Station No</th>
+                        <th scope="row">HostName</th>
+                        <th scope="row">PBX User</th>
+                        <th scope="row">cisco DID</th>
+                        <th scope="row">WFH Statue</th>
+                        <th scope="row"></th>
+                    </tr>
+                </thead>
+                <tbody id="pcs_table">
+                    {% for pc in pcs_table %}
+                    <tr>
+                        <th scope="col">{{ loop.index0 +1 }}</th>
+                        <th scope="col">{{pc.station}}</th>
+                        <th scope="col">{{pc.hostname}}</th>
+                        <th scope="col">{{pc.pbxuser}}</th>
+                        <th scope="col">{{pc.ciscodid}}</th>
+                        <th scope="col" class="wfh-stat">
+                            {% if pc.agent != None %}
+                            <i class="fas fa-house-user" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="This PC Delivered to {{pc.agentpc.bio}}"></i>
+                            {%else%}
+                            Ready
+                            {%endif%}
+                        </th>
+                        <th scope="col"><a href="#" class="btn btn-primary edit-btn" data-bs-toggle="modal"
+                                data-bs-target="#editpc-{{pc.id}}"><i class="bi bi-pencil"></i></a>
+                            <!-- Start Edit PC -->
+                            <div class="modal fade" id="editpc-{{pc.id}}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit {{pc.hostname}}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="post">
+                                                <div class="row mb-3">
+                                                    <input id='editpc' type="hidden" name="editpc">
+                                                    <input type="hidden" class="form-control" name="pc-id" id="pc-id"
+                                                        value="{{pc.id}}">
+                                                    <div class="col-md-6">
+                                                        <label for="station" class="col-form-label">Station No</label>
+                                                        <input type="text" class="form-control" name="station"
+                                                            id="e-station" value="{{pc.station}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="hostname" class="col-form-label">Hostname</label>
+                                                        <input type="text" class="form-control" name="hostname"
+                                                            id="e-hostname" value="{{pc.hostname}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="bpxuser" class="col-form-label">BPX User</label>
+                                                        <input type="text" class="form-control" name="pbxuser"
+                                                            id="e-pbxuser" value="{{pc.pbxuser}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="ciscodid" class="col-form-label">Cisco DID</label>
+                                                        <input type="text" class="form-control" name="ciscodid"
+                                                            id="e-ciscodid" value="{{pc.ciscodid}}">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                                                        data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                        title="Update Pc">Update PC <i
+                                                            class="bi bi-arrow-90deg-right"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Edit PC -->
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

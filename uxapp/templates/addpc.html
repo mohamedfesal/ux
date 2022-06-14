@@ -1,0 +1,48 @@
+<!-- Edit Item Template -->
+{% extends "dashboard.html" %}
+{% block stock %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="edit-for">
+                <h3>Add New PC</h3>
+            </div>
+            <form action="" method="post" class="edit-item shadow p-3 mb-5 bg-body rounded">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">PC Number</div>
+                                <div class="col-md-8"><input id="" class="form-control" placeholder="55" value=""></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">PC Host Name</div>
+                                <div class="col-md-8"><input id="" class="form-control" placeholder="EG-A0-F2-50" value=""></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">DID User</div>
+                                <div class="col-md-8"><input id="" class="form-control" placeholder="EG-A0-F2-50" value=""></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-4">DID Ext</div>
+                                <div class="col-md-8"><input id="" class="form-control" placeholder="EG-A0-F2-50" value=""></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-controls">
+                    <button class="btn btn-primary edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Submit Edits"><i class="bi bi-check"></i></button>
+                    <button class="btn btn-danger edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove"><i class="bi bi-x"></i></button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

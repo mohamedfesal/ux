@@ -1,0 +1,48 @@
+{% extends "dashboard.html" %}
+{% block profile %}
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="req-msg">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-dismissible fade show {{ category }}" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div id='calendar'></div>
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+                
+              var calendarEl = document.getElementById('calendar');
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                themeSystem: 'bootstrap',
+                selectable : true,
+                select: function(start, end, allDay){
+                  var title = prompt('inter title');
+                  var lstart = moment(event.start, 'DD.MM.YYYY').format('YYYY-MM-DD HH:mm:ss')
+                  var lend = moment(event.end, 'DD.MM.YYYY').format('YYYY-MM-DD HH:mm:ss')
+                  console.log(lstart);
+                  console.log(lend);
+                },
+                events: [{
+                  {% for leave in leaves%}
+                  title: '{{leave.type}}',
+                  start: '{{leave.start}}',
+                  end: '{{leave.end}}'
+                {%endfor%}
+                }]
+              });
+              calendar.render();
+            });
+      
+          </script>
+    </div>
+</div>
+{%endblock%}

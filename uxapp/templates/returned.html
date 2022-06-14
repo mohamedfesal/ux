@@ -1,0 +1,38 @@
+<!-- Returned PCs Template -->
+<div class="col-md-12">
+    <div class="table-responsive">
+        <table class="table table-striped wfh-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="row">PC Name</th>
+                    <th scope="row">Bio</th>
+                    <th scope="row">Name</th>
+                    <th scope="row">PC Statue</th>
+                    <th scope="row">HDD Statue</th>
+                    <th scope="row">Screens Statue</th>
+                    <th scope="row">Headset Statue</th>
+                    <th scope="row">Comment</th>
+                    <th scope="row">Returned Date</th>
+                    <th scope="row">Checked By</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pcinfo in returned_table %}
+                <tr>
+                    <th scope="col">{{pcinfo.r_pc}}</th>
+                    <th scope="col">{{pcinfo.r_agent_bio}}</th>
+                    <th scope="col">{{pcinfo.r_agent}}</th>
+                    <th scope="row">{{pcinfo.pc_statue}}</th>
+                    <th scope="row">{{pcinfo.hdd_statue}}</th>
+                    <th scope="row">{{pcinfo.screens_statue}}</th>
+                    <th scope="row">{{pcinfo.headset_statue}}</th>
+                    <th scope="row">{{pcinfo.comment}}</th>
+                    <th scope="row">{{pcinfo.r_date.strftime("%d/%m/%Y")}}</th>
+                    <th scope="row">{{pcinfo.ckecked_by}}</th>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- End Returned Template -->

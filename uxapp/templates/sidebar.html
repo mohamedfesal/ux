@@ -1,0 +1,95 @@
+  <!-- Sidebar -->
+  <aside id="sidebar-wrapper">
+    <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+      <li>
+        <!-- User Profile-->
+        <div class="user-profile dropdown m-t-20">
+            <div class="user-pic position-relative">
+              {%if current_user.avatar != None%}
+              <div class="inner-profile-img">
+              <img class="rounded-circle avatar" alt="Avatar" width="150px" src="/{{current_user.avatar}}">
+              <!-- <span class="position-absolute top-0 start-100 translate-middle p-2 border border-light rounded-circle user-statue">
+                <span class="visually-hidden">Online</span>
+              </span> -->
+              </div>
+              {%else%}
+              <div class="inner-profile-img">
+                <img class="rounded-circle" width="150px" src="{{url_for('static', filename='/imgs/avatar.png')}}">
+                <span class="position-absolute top-0 start-100 translate-middle p-2  border border-light rounded-circle user-statue">
+                  <span class="visually-hidden">Online</span>
+                </span>
+              </div>
+              
+              {%endif%}
+            </div>
+            <div class="user-content hide-menu m-t-10">
+                <h5 class="m-b-10 user-name font-medium">{{current_user.f_name}} {{current_user.l_name}}</h5>
+            </div>
+              <div class="side-tools">
+                  <a class="" href="{{url_for('users_routes.profile', id= current_user.id)}}"><i class="bi bi-gear"></i> Profile</a>
+                  <a class="" href="{{url_for('users_routes.logout')}}"><i class="bi bi-power"></i> Logout</a>
+              </div>
+        </div>
+        <!-- End User Profile-->
+    </li>
+    {%if current_user.user_depart.dep_name.lower() == 'tl'%}
+    <li class="{{tlteam}}">
+      <a href="{{url_for('users_routes.tlteam')}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-users"></i></span>
+        My WFH Team</a>
+    </li>
+    {%else%}
+      <li class="{{dashboard}}">
+        <a href="{{url_for('main.dashboard')}}"><span class="fa-stack fa-lg pull-left"><i class="bi bi-speedometer"></i></span>
+          Dashboard</a>
+      </li>
+      {%if current_user.role == 1%}
+      <li class="{{usermgm}}">
+        <a href="{{url_for('users_routes.users_mgm')}}"><span class="fa-stack fa-lg pull-left"><i class="bi bi-people"></i></span>
+          Users Managment</a>
+      </li>
+      {%endif%}
+      <li class="{{headcount}}">
+        <a href="{{url_for('hc_routes.headcount')}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-user-tie"></i></span>
+          Headcount</a>
+      </li>
+      <li class="{{ac_leavers}}">
+        <a href="{{url_for('hc_routes.leavers')}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-sign-out-alt"></i></span>
+          Leavers</a>
+      </li>
+      <li class="{{wfhtracker}}">
+        <a href="{{url_for('wfh_routes.wfhtracker')}}"><span class="fa-stack fa-lg pull-left"><i class="bi bi-geo-alt"></i></i></span>
+          WFH Tracker</a>
+      </li>
+      <li class="{{wfhpcs}}">
+        <a href="{{url_for('wfh_routes.wfhpcs')}}"><span class="fa-stack fa-lg pull-left"><i class="bi bi-pc-display"></i></span>
+          WFH PCS</a>
+      </li>
+     
+      <li class="{{pcdetails}}">
+        <a href="{{url_for('pcs_routes.pcdetails')}}"><span class="fa-stack fa-lg pull-left"><i class="bi bi-laptop"></i></span>
+          Host Names & DID</a>
+      </li>
+      <li class="{{stocka}}">
+        <a href="{{url_for('stock_routes.stock')}}"><span class="fa-stack fa-lg pull-left"><i class="bi bi-boxes"></i></span>
+          Stock</a>
+      </li>
+      <li class="{{mail}}">
+        <a href="{{url_for('Mailer.mailer')}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-envelope-open-text"></i></span>
+        WFH Mail</a>
+      </li>
+      <li class="{{pr_lable}}">
+        <a href="{{url_for('labels_routes.labels')}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-print"></i></span>
+          Label Print</a>
+      </li>
+      <li class="{{requests}}">
+        <a href="{{url_for('req_routes.requests')}}"><span class="fa-stack fa-lg pull-left"><i class="fas fa-clipboard-list"></i></span>
+          Tickets
+          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle req-badge">
+            <span class="visually-hidden">New alerts</span>
+          </span>
+        </a> 
+      </li>
+  {%endif%}
+    </ul>
+  </aside>
+  <!-- End sidebar-wrapper -->

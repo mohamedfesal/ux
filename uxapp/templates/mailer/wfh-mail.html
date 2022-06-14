@@ -1,0 +1,51 @@
+<!-- Search Template -->
+{% extends "dashboard.html" %}
+{% block tlteam %}
+<section class="users-mgm">
+    <div class="col-md-12">
+        <div class="req-msg">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-dismissible fade show {{ category }}" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+      
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2><b>Mail WFH Team</b></h2>
+                            </div>
+                            <div class="col-sm-7">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        <label for="tl-team" class="form-label">Select TL Team</label>
+                        <select id='tl-team' name="tl-team" class="form-select" aria-label="Default select example">
+                          <option selected>select TL</option>
+                          {% for tl in tls %}
+                          <option value="{{tl.id}}">{{tl.f_name}} {{tl.l_name}}</option>
+                          {%endfor%}
+                        </select>
+                        <button class="btn btn-primary" type="submit">Send Mail</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

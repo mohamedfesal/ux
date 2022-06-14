@@ -1,0 +1,209 @@
+{% extends "dashboard.html" %}
+{% block dep_requist %}
+<div class="container-fluid rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-12">
+          
+             <!-- Start Error Handling Section -->
+             {%include 'error-handle.html'%}
+             <!-- End Error Handling Section -->
+            <!-- New Req Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="new-dep" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">New Depareture Request</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                <div class="input-group mb-3">
+                                    <input type="hidden" name="dep_req_form">
+                                    <span class="input-group-text" id="basic-addon1">Title</span>
+                                    <input type="text" name="title" id="dep-title" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+                                    <span class="input-group-text" id="basic-addon1">Bio</span>
+                                    <input type="text" name="bio" id="bio" class="form-control" placeholder="Bio" aria-label="Bio" aria-describedby="basic-addon1">
+                                  </div>
+                                <button type="submit" class="btn btn-primary">Add Request</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Modal -->
+                       <!-- Modal -->
+                       <div class="modal fade" id="new-ticket" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">New Ticket</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                            {% include 'tickets/new-ticket.html' %}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+        </div>
+        {% if current_user.user_depart.dep_name.lower() == 'it' or current_user.user_depart.dep_name.lower() == 'facility' or current_user.user_depart.dep_name.lower() == 'security' %}
+        <!-- Start Statistics  -->
+        <div class="row m-t-40">
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3 col-xlg-3">
+                <div class="card card-hover">
+                    <div class="box bg-info text-center">
+                        <h1 class="font-light text-white">{{all_req|length}}</h1>
+                        <h6 class="text-white">Total Tickets</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3 col-xlg-3">
+                <div class="card card-hover">
+                    <div class="box bg-primary text-center">
+                        <h1 class="font-light text-white">{{all_opend_req|length}}</h1>
+                        <h6 class="text-white">Opened Tickets</h6>
+                   
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3 col-xlg-3">
+                <div class="card card-hover">
+                    <div class="box bg-success text-center">
+                        <h1 class="font-light text-white">{{all_resolved_req|length}}</h1>
+                        <h6 class="text-white">Resolved Tickets</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-6 col-lg-3 col-xlg-3">
+                <div class="card card-hover">
+                    <div class="box bg-dark text-center">
+                        <h1 class="font-light text-white">{{all_closed_req|length}}</h1>
+                        <h6 class="text-white">Closed</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+        </div>
+        <!-- End Statistics -->
+        <div class="col-md-12 table-responsive">
+            <table class="table table-striped table-bordered table-hover text-start">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 5%">#</th>
+                    <th scope="col" style="width: 15%">Request Number</th>
+                    <th scope="col" style="width: 10%">Type</th>
+                    <th scope="col" style="width: 35%">Title</th>
+                    <th scope="col" style="width: 13%">Added By</th>
+                    <th scope="col" style="width: 7%">Department</th>
+                    <th scope="col" style="width: 15%">Date</th>
+                    <th scope="col" style="width: 5%"> Statue</th>
+                  </tr>
+                </thead>
+                <tbody class="text-start">
+                  
+                    {% for req in all_req%}
+                    <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td><a href='{{url_for("req_routes.requests")}}/{{req.id}}'>Req-{{req.id}}</a></td>
+                    <td>{{req.r_type.req_type}}</td>
+                    <td>{{req.req_title}}</td>
+                    <td>{{req.user_req.f_name}} {{req.user_req.l_name}}</td>
+                    <td>{{req.user_req.user_depart.dep_name}}</td>
+                    <td>{{req.req_date}}</td>
+                    <td>
+                        {%if req.statue == None %}
+                        <span class="badge bg-success">Opened</span>
+                        {%elif req.statue == 'resolved'%}
+                        <span class="badge bg-warning">Resolved</span>
+                        {%elif req.statue == 'closed'%}
+                        <span class="badge bg-danger">Closed</span>
+                        {%endif%}
+                    </td>
+                </tr>
+                    {%endfor%}
+                  
+                </tbody>
+                <!-- <tfoot>
+                    <tr>
+                      <th scope="col" style="width: 5%">#</th>
+                      <th scope="col" style="width: 15%">Request Number</th>
+                      <th scope="col" style="width: 10%">Type</th>
+                      <th scope="col" style="width: 40%">Title</th>
+                      <th scope="col" style="width: 15%">Aded By</th>
+                      <th scope="col" style="width: 15%">Date</th>
+                      <th scope="col" style="width: 5%"> Statue</th>
+                    </tr>
+                  </thead>
+              </tfoot> -->
+        </div>
+        {%endif%}
+        <!-- Table tickets for HR -->
+        {% if current_user.user_depart.dep_name.lower() == 'hr' %}
+        <div class="col-md-12 table-responsive">
+            <table class="table table-striped table-bordered table-hover text-start">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 5%">#</th>
+                    <th scope="col" style="width: 15%">Request Number</th>
+                    <th scope="col" style="width: 10%">Type</th>
+                    <th scope="col" style="width: 35%">Title</th>
+                    <th scope="col" style="width: 13%">Added By</th>
+                    <th scope="col" style="width: 7%">Department</th>
+                    <th scope="col" style="width: 15%">Date</th>
+                    <th scope="col" style="width: 5%"> Statue</th>
+                  </tr>
+                </thead>
+                <tbody class="text-start">
+                  
+                    {% for req in all_dep_req | reverse%}
+                    <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td><a href='{{url_for("req_routes.requests")}}/{{req.id}}'>Req-{{req.id}}</a></td>
+                    <td>{{req.r_type.req_type}}</td>
+                    <td>{{req.req_title}}</td>
+                    <td>{{req.user_req.f_name}} {{req.user_req.l_name}}</td>
+                    <td>{{req.user_req.user_depart.dep_name}}</td>
+                    <td>{{req.req_date}}</td>
+                    <td>
+                        {%if req.statue == None or req.statue == '' %}
+                        <span class="badge bg-success">Opened</span>
+                        {%elif req.statue == 'resolved'%}
+                        <span class="badge bg-warning">Resolved</span>
+                        {%elif req.statue == 'closed'%}
+                        <span class="badge bg-danger">Closed</span>
+                        {%endif%}
+                    </td>
+                </tr>
+                    {%endfor%}
+                  
+                </tbody>
+                <!-- <tfoot>
+                    <tr>
+                      <th scope="col" style="width: 5%">#</th>
+                      <th scope="col" style="width: 15%">Request Number</th>
+                      <th scope="col" style="width: 10%">Type</th>
+                      <th scope="col" style="width: 40%">Title</th>
+                      <th scope="col" style="width: 15%">Aded By</th>
+                      <th scope="col" style="width: 15%">Date</th>
+                      <th scope="col" style="width: 5%"> Statue</th>
+                    </tr>
+                  </thead>
+              </tfoot> -->
+        </div>
+        {%endif%}
+    </div>
+</div>
+{%endblock%}

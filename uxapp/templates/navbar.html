@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header fixed-brand">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+          <span class="glyphicon glyphicon-th-large" aria-hidden="true"><i class="bi bi-list"></i></span>
+        </button>
+        <a class="col-md-3 col-lg-2 me-0 px-3" href="{{url_for('main.dashboard')}}"><img
+            src="{{url_for('static', filename='imgs/logo.png')}}"></a>
+      </div>
+      <!-- navbar-header-->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span
+                class="glyphicon glyphicon-th-large" aria-hidden="true"><i class="bi bi-list"></i></span>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <!-- bs-example-navbar-collapse-1 -->
+      <div class="menue-tools">
+        <ul class="nav-items">
+          <li class="nav-item">
+            <div class=" orm-check form-switch custom-control custom-switch">
+                <input type="checkbox" class="form-check-input custom-control-input" role="switch" id="darkSwitch">
+                <label class="custom-control-label" for="darkSwitch"><i class="bi bi-cloud-moon-fill"></i></label>
+              </div>
+            
+          </li>
+          <li class="nav-item">
+            <button class="nav-link btn btn-secondary" type="button" id="tasks-btn">
+              <i class="fas fa-tasks"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger tasks-badg">
+  
+                <span class="visually-hidden">Unread Tasks</span>
+              </span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown">
+                <div class="nav-link user-welcome" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {%if current_user.avatar != None%}
+                    <img class="rounded-circle avatar" alt="Avatar" width="150px" src="/{{current_user.avatar}}">
+                    {%else%}
+                    <img class="rounded-circle" width="150px" src="{{url_for('static', filename='/imgs/avatar.png')}}">
+                    {%endif%}
+                </div>
+              <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="{{url_for('users_routes.profile', id= current_user.id)}}"><i class="bi bi-gear"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="{{url_for('users_routes.logout')}}"><i class="bi bi-power"></i> Logout</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+  </nav>

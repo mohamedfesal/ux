@@ -1,0 +1,71 @@
+{% extends "dashboard.html" %}
+{% block stock %}
+<div class="container">
+    <div class="row">
+      <!-- Start Error Handling Section -->
+      {%include 'error-handle.html'%}
+      <!-- End Error Handling Section -->
+        <div class="col-md-6 shadow-sm p-3 mb-5 bg-body rounded">
+            <form action="" method="post">
+              <div class="mb-3">
+                <h3>Stations Number</h3>
+                <label class="fs-6 text" class="form-check-label" for="pcs-range">Insert Stations Number and separate them with Comma , Example "1,2,3,4" </label>
+                <input type="text" name="pcs-range" class="search form-control" required>
+                </div>
+                <h3>Choose Stations Type</h3>
+                <div class="form-check">
+                    <input class="form-check-input pro" type="radio" name="label-option" value="pro">
+                    <label class="form-check-label" for="label-option">
+                      Production
+                    </label>
+                  </div>
+                  <label class="form-check-label" for="floor">Choose Production Floor</label>
+                  <select class="form-select floor" aria-label="Default select example" name="floor" disabled>
+                    {%for floor in floor_cat%}
+                    <option value="{{floor}}">{{floor}}</option>
+                    {%endfor%}
+                  </select>
+                  <div class="form-check">
+                    <input class="form-check-input wfh" type="radio" name="label-option" value="wfh">
+                    <label class="form-check-label" for="label-option">
+                      WFH
+                    </label>
+                  </div>
+                <button type="submit" class="btn btn-primary generate"><i class="bi bi-arrow-repeat"></i> Generate</button>
+                <button class="print btn btn-success"><i class="bi bi-printer"></i> Print</button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+<div class="container rounded bg-white mt-5 mb-5 print-el">
+    <div class="row">
+      {%for pc in pclist:%}
+      {% if label(pc) != None %}
+        <div class="col-md-6">
+            <div class="row labels-table label-container">
+                <div class="col-md-6 label-item label-head">Station No</div>
+                <div class="col-md-6 label-item label-head">Machine Name</div>
+                <div class="col-md-6 label-item">{{label(pc).station}}</div>
+                <div class="col-md-6 label-item">{{label(pc).hostname}}</div>
+                <div class="col-md-6 label-item label-head">UserName</div>
+                <div class="col-md-6 label-item label-head">DID/ Dial Number</div>
+                <div class="col-md-6 label-item">{{label(pc).pbxuser}}</div>
+                <div class="col-md-6 label-item">{{label(pc).ciscodid}}</div>
+                <span>#WFH</span><span>#Please Don't Remove</span>
+            </div>
+           </div>
+        {%endif%}
+        {% if label(pc) == None %}
+        <div class="col-12 print-labels-errors">
+            <div class="alert alert-dismissible fade show alert-danger" role="alert">
+                <div class="">Station {{pc}} Not Exist</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>  
+        </div>
+            {%endif%} 
+        {%endfor%}
+    </div>
+   </div>
+{%endblock%}

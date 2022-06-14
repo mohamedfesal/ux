@@ -1,0 +1,78 @@
+<div class="todo-overflow"></div>
+<section class="todo-side">
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12">
+        <div class="">
+          <div class="todo-header">
+            <div class="todo-title font-size-lg text-capitalize font-weight-normal"><i
+                class="fa fa-tasks"></i>&nbsp;Tasks List</div>
+          </div>
+          <div class="scroll-area-sm">
+            <perfect-scrollbar class="ps-show-limits">
+              <div style="position: static;" class="ps ps--active-y">
+                <div class="ps-content">
+                  <ul id='todo-list' class=" list-group list-group-flush">
+                    {% if todosTasksCount == 0 %}
+                    <li class="list-group-item shadow-sm p-3 mb-5 bg-body rounded">
+                      Feel Free! There is no tasks 😉
+                    </li>
+                    {%else%}
+                    {% for todo in todos %}
+                    <li class="list-group-item animate__animated animate__fadeInDown shadow-sm p-3 mb-3 bg-body rounded">
+                      <div class="todo-indicator bg-warning"></div>
+                      <div class="widget-content p-0">
+                        <div class="widget-content-wrapper">
+                          <div class="widget-content-left mr-2">
+                            <!-- <div class="custom-checkbox custom-control"> <input class="custom-control-input" id="exampleCustomCheckbox12" type="checkbox">
+                                <label class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label>
+                              </div> -->
+                          </div>
+                          <div class="widget-content-left">
+                            {% if todo.todo_statues == 0 %}
+                            <div class="widget-heading" style="text-decoration: line-through;">{{todo.task}}
+                              <div class="badge bg-danger ml-2 todo-task-badge">Urgent</div>
+                            </div>
+                            {%else%}
+                            <div class="widget-heading"><span class="task-content">{{todo.task}}</span>
+                              <div class="badge bg-danger ml-2 todo-task-badge">Urgent</div>
+                            </div>
+                            {%endif%}
+                            <div class="widget-subheading"><i>{{todo.user_task.username}}</i></div>
+                            <div class="widget-subheading"><span>{{todo.date_created}}</span></div>
+                          </div>
+                          <div class="widget-content-right">
+                            <div data-rep='{{todo.id}}'
+                              class="border-0 btn-transition btn btn-outline-success addTaskBtn"> <i
+                                class="fa fa-check"></i></div>
+                            <div data-rep='{{todo.id}}'
+                              class="border-0 btn-transition btn btn-outline-danger delete-task"> <i
+                                class="fa fa-trash"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    {%endfor%}
+                    {%endif%}
+                  </ul>
+                </div>
+              </div>
+            </perfect-scrollbar>
+          </div>
+          <div class="d-block text-right todo-footer">
+            <form id='todo-form' action="{{url_for('todo_routes.todo')}}" method="post">
+
+              <div class="input-group">
+                <input type="text" class="form-control" id="add-todo" name="todo_task" placeholder="Task"
+                  aria-label="Task" aria-describedby="button-addon2">
+                <button class="btn btn-success" type="submit" id="button-addon2"><i class="bi bi-plus-lg"></i></button>
+                <button type="button" class="mr-2 btn btn-sm btn-danger" data-bs-dismiss="modal"
+                  aria-label="Close">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

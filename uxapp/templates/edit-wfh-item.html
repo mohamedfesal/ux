@@ -1,0 +1,36 @@
+<!-- Edit Item Template -->
+{% extends "dashboard.html" %}
+{% block stock %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="edit-for">
+                <h3>Edit WFH Item For "EG-A1-WFH-1"</h3>
+            </div>
+            <form action="" method="post" class="edit-item shadow p-3 mb-5 bg-body rounded">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">Bio</div>
+                                <div class="col-md-8"><input id="" class="form-control" value="4172568"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">Name</div>
+                                <div class="col-md-8"><input id="" class="form-control" value="Mohamed Faisal"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-controls">
+                    <button class="btn btn-primary edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Submit Edits"><i class="bi bi-check"></i></button>
+                    <button class="btn btn-danger edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove"><i class="bi bi-x"></i></button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

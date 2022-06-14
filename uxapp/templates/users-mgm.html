@@ -1,0 +1,341 @@
+<!-- Search Template -->
+{% extends "dashboard.html" %}
+{% block pcdetails %}
+<section class="users-mgm">
+    <div class="col-md-12">
+        <div class="req-msg">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-dismissible fade show {{ category }}" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+        <!-- Start Add User -->
+        <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <input type="hidden" name="add-user-form" value="add-user-form">
+                                    <label for="f-name" class="col-form-label">First Name</label>
+                                    <input type="text" class="form-control" name="f-name" id="f-name" value="">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="l-name" class="col-form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="l-name" id="l-name" value="">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-username" class="col-form-label">Username</label>
+                                <input type="text" class="form-control" name="username" id="add-username" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-bio" class="col-form-label">Biometric</label>
+                                <input type="text" class="form-control" name="add-bio" id="add-bio" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-email" class="col-form-label">Email</label>
+                                <input type="email" class="form-control" name="add-email" id="add-email" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-pass" class="col-form-label">Temp Password</label>
+                                <input type="text" class="form-control" name="add-pass" id="add-pass" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-role" class="col-form-label">Role</label>
+                                <select class="form-select add-type" aria-label="Default select example"
+                                    name="add-role">
+                                    <option value="1">Admin</option>
+                                    <option value="2" selected>User</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="add-dep" class="col-form-label">Department</label>
+                                <select class="form-select add-type" aria-label="Default select example" name="add-dep">
+                                    {%for dep in view_dep%}
+                                    <option value="{{dep.id}}" selected>{{dep.dep_name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" title="Move To Returned">Add <i
+                                        class="bi bi-arrow-90deg-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- End Add User -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Import Users From Excel Sheet -->
+                    <form id="add-pc-exc" action="" method="post"
+                        enctype="multipart/form-data" class="edit-item shadow p-3 mb-5 bg-body rounded">
+                        <div class="custom-file">
+                            <h3> Import Users From Excel Sheet</h3>
+                            <input type="hidden" name="import-users">
+                            <input type="file" class="custom-file-input" id="sheet" name="sheet">
+                            <label class="custom-file-label" for="sheet">Choose file</label>
+                            <!-- <button class="btn btn-primary edit-btn" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            title="Submit Edits"><i class="bi bi-check"></i></button> -->
+                            <button class="btn btn-primary" type="submit">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Upload
+                            </button>
+                        </div>
+                    </form>
+                    <!-- End Import From Excel -->
+                </div>
+            </div>
+        </div>
+        <div class="container-xl">
+            <div class="table-responsive">
+                <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <h2><b>User Management</b></h2>
+                            </div>
+                            <div class="col-sm-7">
+                                <a href="#" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#addUser"><i class="bi bi-person-plus"></i> <span>Add New
+                                        User</span></a>
+                                <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+                                    <span>Export to Excel</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-hover text-start">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Biometric</th>
+                                <th>Name</th>
+                                <th>Date Created</th>
+                                <th>Role</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in view_users%}
+                            <tr>
+                                <td> {{ loop.index0 +1 }}</td>
+                                <td>{{user.bio}}</td>
+                                <td><a href="profile/{{user.id}}">{%if user.avatar != None%}
+                                        <img class="rounded-circle avatar" alt="Avatar" width="150px"
+                                            src="/{{user.avatar}}">
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle p-2 border border-light rounded-circle user-statue user-{{user.id}}">
+                                            <span class="visually-hidden">Online</span>
+                                        </span>
+                                        {%else%}
+                                        <img class="rounded-circle avatar" width="150px"
+                                            src="{{url_for('static', filename='/imgs/avatar.png')}}">
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle p-2 border border-light rounded-circle user-statue user-{{user.id}}">
+                                            <span class="visually-hidden">Online</span>
+                                        </span>
+                                        {%endif%} {{user.f_name}} {{user.l_name}}</a></td>
+                                {% if user.date_created != None %}
+                                <td>{{user.date_created.strftime("%d/%m/%Y")}} </td>
+                                {% else:%}
+                                <td>Not Set! </td>
+                                {%endif%}
+                                {%if user.role == 1%}
+                                <td><span>Admin</span></td>
+                                {%elif user.role == 2:%}
+                                <td><span>User</span></td>
+                                {%else%}
+                                <td><span>Not Set!</span></td>
+                                {%endif%}
+                                {%if user.depart != none %}
+                                <td><span>{{user.user_depart.dep_name}}</span></td>
+                                {%else%}
+                                <td><span>Not Set!</span></td>
+                                {%endif%}
+                                {%if user.statue == 1%}
+                                <td><span class="status text-success">•</span>Active</td>
+                                {%else:%}
+                                <td><span class="status text-danger">•</span>Inactive</td>
+                                {%endif%}
+                                <td>
+                                    <a href="#" class="settings" title="Settings" data-id="{{user.id}}"
+                                        data-toggle="tooltip" data-bs-toggle="modal"
+                                        data-bs-target="#editUser-{{user.id}}"><i class="bi bi-gear"></i></a>
+                                    <a href="#" class="delete" title="Delete" data-toggle="tooltip"
+                                        data-bs-toggle="modal" data-bs-target="#delete-user-{{user.id}}"><i
+                                            class="bi bi-x-circle"></i></a>
+                                    <!-- Delete User Confirm -->
+                                    <div class="modal fade" id="delete-user-{{user.id}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are You Sure You Want Delete {{user.f_name}} ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <a href="{{url_for('users_routes.users_mgm', userid= user.id)}}"
+                                                        class="delete btn btn-danger" title="Delete"
+                                                        data-toggle="tooltip">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Delete User Confirm -->
+
+                                </td>
+                            </tr>
+                            <!-- Start Edit User -->
+                            <div class="modal fade" id="editUser-{{user.id}}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit {{user.f_name}}'s
+                                                Profile</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="" method="post">
+                                                <div class="row mb-3">
+                                                    <input type="hidden" name="edit-user-form" value="edit-user-form">
+                                                    <input type="hidden" class="form-control" name="user-id"
+                                                        id="user-id" value="{{user.id}}">
+                                                    <div class="col-md-6">
+                                                        <label for="f-name" class="col-form-label">First Name</label>
+                                                        <input type="text" class="form-control" name="f-name"
+                                                            id="f-name" value="{{user.f_name}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="l-name" class="col-form-label">Last Name</label>
+                                                        <input type="text" class="form-control" name="l-name"
+                                                            id="l-name" value="{{user.l_name}}">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-username" class="col-form-label">Username</label>
+                                                    <input type="text" class="form-control" name="username"
+                                                        id="edit-username" value="{{user.username}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-bio" class="col-form-label">Biometric</label>
+                                                    <input type="text" class="form-control" name="edit-bio"
+                                                        id="edit-bio" value="{{user.bio}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-email" class="col-form-label">Email</label>
+                                                    <input type="email" class="form-control" name="edit-email"
+                                                        id="edit-email" value="{{user.email}}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-pass" class="col-form-label">Password Reset</label>
+                                                    <input type="password" class="form-control" name="edit-pass"
+                                                        id="edit-pass" value="">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-role" class="col-form-label">Role</label>
+                                                    <select class="form-select add-type"
+                                                        aria-label="Default select example" name="edit-role">
+                                                        {%if user.role == 1:%}
+                                                        <option value="1" selected>Admin</option>
+                                                        <option value="2">User</option>
+                                                        {%else:%}
+                                                        <option value="1">Admin</option>
+                                                        <option value="2" selected>User</option>
+                                                        {%endif%}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="edit-dep" class="col-form-label">Department</label>
+                                                    <select class="form-select add-type"
+                                                        aria-label="Default select example" name="edit-dep">
+                                                        {%for dep in view_dep%}
+                                                        {%if user.depart == dep.id:%}
+                                                        <option value="{{dep.id}}" selected>{{dep.dep_name}}</option>
+                                                        {%else:%}
+                                                        <option value="{{dep.id}}">{{dep.dep_name}}</option>
+                                                        {%endif%}
+                                                        {%endfor%}
+                                                    </select>
+
+                                                </div>
+                                                <div class="form-check form-switch mb-3">
+                                                    {%if user.statue == 1:%}
+                                                    <input class="form-check-input" name="user-stat" type="checkbox"
+                                                        role="switch" id="flexSwitchCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">User
+                                                        Statue</label>
+                                                    {%else:%}
+                                                    <input class="form-check-input" name="user-stat" type="checkbox"
+                                                        role="switch" id="flexSwitchCheckChecked">
+                                                    <label class="form-check-label" for="flexSwitchCheckChecked">User
+                                                        Statue</label>
+                                                    {%endif%}
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                                                        data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                        title="Move To Returned">Update User <i
+                                                            class="bi bi-arrow-90deg-right"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Edit User -->
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                    <!-- <div class="clearfix">
+                        <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                        <ul class="pagination">
+                            <li class="page-item disabled"><a href="#">Previous</a></li>
+                            <li class="page-item"><a href="#" class="page-link">1</a></li>
+                            <li class="page-item"><a href="#" class="page-link">2</a></li>
+                            <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                            <li class="page-item"><a href="#" class="page-link">4</a></li>
+                            <li class="page-item"><a href="#" class="page-link">5</a></li>
+                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                        </ul>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%endblock%}

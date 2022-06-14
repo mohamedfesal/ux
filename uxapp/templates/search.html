@@ -1,0 +1,228 @@
+<!-- Search Template -->
+{% extends "dashboard.html" %}
+{% block pcdetails %}
+<div class="col-md-12">
+<!-- Start Error Handling Section -->
+{%include 'error-handle.html'%}
+<!-- End Error Handling Section -->
+    <div class="table-responsive">
+    {%if ref == url_for('pcs_routes.pcdetails').split('/')[-1]%}
+    <table class="table table-striped table-responsive ">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="row">#</th>
+                <th scope="row">Site</th>
+                <th scope="row">Build</th>
+                <th scope="row">Floor</th>
+                <th scope="row">Station No</th>
+                <th scope="row">HostName</th>
+                <th scope="row">IP Adress</th>
+                <th scope="row">PBX User</th>
+                <th scope="row">cisco DID</th>
+                <th scope="row"></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for pc in results%}
+           
+            <tr>
+                <th scope="col">{{ loop.index0 +1 }}</th>
+                <th scope="col">{{pc.site}}</th>
+                <th scope="col">{{pc.build}}</th>
+                <th scope="col">{{pc.floor}}</th>
+                <th scope="col">{{pc.station}}</th>
+                <th scope="col">{{pc.hostname}}</th>
+                <th scope="col">{{pc.ip}}</th>
+                <th scope="col">{{pc.pbxuser}}</th>
+                <th scope="col">{{pc.ciscodid}}</th>
+                <th scope="col"><a href="#" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editpc-{{pc.id}}"><i
+                            class="bi bi-pencil"></i></a>
+                                                <!-- Start Edit PC -->
+                <div class="modal fade" id="editpc-{{pc.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit {{pc.hostname}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('pcs_routes.pcdetails')}}" method="post">
+                                <div class="row mb-3">
+                                    <input type="hidden" name="editpc">
+                                    <input type="hidden" class="form-control" name="pc-id"
+                                        id="pc-id" value="{{pc.id}}">
+                                        <div class="col-md-6">
+                                            <label for="site" class="col-form-label">Site</label>
+                                            <input type="text" class="form-control" name="site"
+                                                id="e-site" value="{{pc.site}}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="build" class="col-form-label">Build</label>
+                                            <input type="text" class="form-control" name="build"
+                                                id="e-build" value="{{pc.build}}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="floor" class="col-form-label">Floor</label>
+                                            <input type="text" class="form-control" name="floor"
+                                                id="e-floor" value="{{pc.floor}}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="station" class="col-form-label">Station No</label>
+                                            <input type="text" class="form-control" name="station"
+                                                id="e-station" value="{{pc.station}}">
+                                        </div>
+                                    <div class="col-md-6">
+                                        <label for="hostname" class="col-form-label">Hostname</label>
+                                        <input type="text" class="form-control" name="hostname"
+                                            id="e-hostname" value="{{pc.hostname}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="ipadress" class="col-form-label">IP Adress</label>
+                                        <input type="text" class="form-control" name="ip"
+                                            id="e-ip" value="{{pc.ip}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="bpxuser" class="col-form-label">PBX User</label>
+                                        <input type="text" class="form-control" name="pbxuser"
+                                            id="e-pbxuser" value="{{pc.pbxuser}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="ciscodid" class="col-form-label">Cisco DID</label>
+                                        <input type="text" class="form-control" name="ciscodid"
+                                            id="e-ciscodid" value="{{pc.ciscodid}}">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        title="Update Pc">Update PC <i
+                                            class="bi bi-arrow-90deg-right"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Edit PC -->
+                        </th>
+            </tr>
+             {%endfor%}
+           
+            
+        </tbody>
+    </table>
+    {%elif ref == url_for('wfh_routes.wfhpcs').split('/')[-1] or ref == url_for('wfh_routes.wfhtracker').split('/')[-1]:%}
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="row">#</th>
+                <th scope="row">Station No</th>
+                <th scope="row">HostName</th>
+                <th scope="row">PBX User</th>
+                <th scope="row">cisco DID</th>
+                <th scope="row">WFH Statue</th>
+                <th scope="row"></th>
+            </tr>
+        </thead>
+        <tbody id="pcs_table">
+            {% for pc in results %}
+            <tr>
+                <th scope="col">{{ loop.index0 +1 }}</th>
+                <th scope="col">{{pc.station}}</th>
+                <th scope="col">{{pc.hostname}}</th>
+                <th scope="col">{{pc.pbxuser}}</th>
+                <th scope="col">{{pc.ciscodid}}</th>
+                <th scope="col" class="wfh-stat">
+                    {% if pc.agent != None %}
+                    <i class="fas fa-house-user" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                        title="This PC Delivered to {{pc.agentpc.bio}}"></i>
+                    {%else%}
+                    Ready
+                    {%endif%}
+                </th>
+                <th scope="col"><a href="#" class="btn btn-primary edit-btn" data-bs-toggle="modal"
+                        data-bs-target="#editpc-{{pc.id}}"><i class="bi bi-pencil"></i></a>
+                    <!-- Start Edit PC -->
+                    <div class="modal fade" id="editpc-{{pc.id}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit {{pc.hostname}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="post">
+                                        <div class="row mb-3">
+                                            <input id='editpc' type="hidden" name="editpc">
+                                            <input type="hidden" class="form-control" name="pc-id" id="pc-id"
+                                                value="{{pc.id}}">
+                                            <div class="col-md-6">
+                                                <label for="site" class="col-form-label">Site</label>
+                                                <input type="text" class="form-control" name="site" id="e-site"
+                                                    value="{{pc.site}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="build" class="col-form-label">Build</label>
+                                                <input type="text" class="form-control" name="build"
+                                                    id="e-build" value="{{pc.build}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="floor" class="col-form-label">Floor</label>
+                                                <input type="text" class="form-control" name="floor"
+                                                    id="e-floor" value="{{pc.floor}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="station" class="col-form-label">Station No</label>
+                                                <input type="text" class="form-control" name="station"
+                                                    id="e-station" value="{{pc.station}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="hostname" class="col-form-label">Hostname</label>
+                                                <input type="text" class="form-control" name="hostname"
+                                                    id="e-hostname" value="{{pc.hostname}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="bpxuser" class="col-form-label">BPX User</label>
+                                                <input type="text" class="form-control" name="pbxuser"
+                                                    id="e-pbxuser" value="{{pc.pbxuser}}">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="ciscodid" class="col-form-label">Cisco DID</label>
+                                                <input type="text" class="form-control" name="ciscodid"
+                                                    id="e-ciscodid" value="{{pc.ciscodid}}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                                                data-bs-placement="bottom" title="Cancel">Cancel</button>
+                                            <button type="submit" class="btn btn-primary"
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="Update Pc">Update PC <i
+                                                    class="bi bi-arrow-90deg-right"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Edit PC -->
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {%endif%}
+    </div>
+</div>
+{%endblock%}

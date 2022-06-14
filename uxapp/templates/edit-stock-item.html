@@ -1,0 +1,38 @@
+<!-- Edit Item Template -->
+{% extends "dashboard.html" %}
+{% block stock %}
+<div class="container">
+    <div class="row">
+          <!-- Start Error Handling Section -->
+          {%include 'error-handle.html'%}
+          <!-- End Error Handling Section -->
+        <div class="col-12">
+            <form action="" method="post">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="row">No</th>
+                            <th scope="row">Item</th>
+                            <th scope="row">Stock</th>
+                            <th scope="row">Comment</th>
+                            <th scope="row"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="col">1</th>
+                            <th scope="col"><input id="" class="form-control" value="Dell 6050" ></th>
+                            <th scope="col"><input id="" class="form-control" value="66" ></th>
+                            <th scope="col"></th>
+                            <th scope="col">
+                                <button class="btn btn-primary edit-btn"><i class="bi bi-check"></i></button>
+                                <button class="btn btn-danger edit-btn"><i class="bi bi-x"></i></button>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

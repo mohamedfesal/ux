@@ -1,0 +1,78 @@
+<!--  Dashboard Template -->
+{% extends "base.html" %}
+{% block body %}
+
+<!-- Import Navbar -->
+{% include 'navbar.html'%}
+<!-- Start To Do List -->
+{%include '/todo.html'%}
+<!-- End To Do List -->
+<div id="wrapper">
+<!-- Import Sidebar -->
+{%include 'sidebar.html'%}
+<!-- Loader -->
+<div class="cs-loader">
+  <div class="cs-loader-inner">
+    <label>●</label>
+    <label>●</label>
+    <label>●</label>
+    <label>●</label>
+    <label>●</label>
+    <label>●</label>
+  </div>
+</div>
+<!-- End Loader -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container-fluid dashbored-sec">
+      <div class="row">
+        <div class="col-lg-12">
+          <main>
+            <div class="row">
+              <div class="col-md-6">
+                <h1 class="h2">{{title}}</h1>
+              </div>
+              <div class="col-md-6">{% include 'actions-nav.html'%}</div>
+            </div>
+            <hr>
+            {% if url_for('main.dashboard') == request.path:%}
+            {% include 'dashboard-items.html' %}
+            {%endif%}
+            <!-- Start -- Dashboard Navigation Pages will be included Here -->
+            {%block in_dashboard%}
+            {%endblock%}
+            {%block wfhsheet%}
+            {%endblock%}
+            {%block returned%}
+            {%endblock%}
+            {%block pcdetails%}
+            {%endblock%}
+            {%block stock%}
+            {%endblock%}
+            {%block profile%}
+            {%endblock%}
+            {%block edit_requist%}
+            {%endblock%}
+            {%block dep_requist%}
+            {%endblock%}
+            {%block messages%}
+            {%endblock%}
+            {%block tlteam%}
+            {%endblock%}
+            <!-- End -- Dashboard Navigation Pages will be included Here -->
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+</div>
+<!-- <script type="text/javascript" charset="utf-8">
+  var socket = io();
+  socket.on('connect', function() {
+      socket.emit('message', {data: 'I\'m connected!'});
+  });
+</script> -->
+<!-- /#wrapper -->
+<!-- jQuery -->
+{%endblock%}

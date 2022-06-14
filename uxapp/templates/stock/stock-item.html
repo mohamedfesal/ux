@@ -1,0 +1,159 @@
+<!-- Category Stock Items View Template -->
+{% extends "dashboard.html" %}
+{% block pcdetails %}
+<div class="container">
+    <div class="row">
+         <!-- Start Error Handling Section -->
+         {%include 'error-handle.html'%}
+         <!-- End Error Handling Section -->
+        <div class="col-12">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h2><b>{{stock_item_cat.categ}}</b></h2>
+                    </div>
+                    <div class="col-sm-7">
+                        <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addItem"><i class="bi bi-plus-lg"></i> <span>Add New Item</span></a>
+                        <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i> <span>Export to Excel</span></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Start Add Item -->
+            <div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add New Item</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('stock_routes.stockItem', st_item = stock_item_cat.id)}}" method="post">
+                                <div class="mb-3">
+                                    <label for="stockItem" class="col-form-label">Item Name</label>
+                                    <input type="text" class="form-control" name="stockItem" id="add-stockItem"value="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-serial" class="col-form-label">Serial</label>
+                                    <input type="text" class="form-control" name="add-serial" id="add-serial" value="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-quantity" class="col-form-label">Quantity</label>
+                                    <input type="number" class="form-control" name="add-quantity" id="add-quantity"
+                                        value="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-pos" class="col-form-label">Position</label>
+                                    <input type="text" class="form-control" name="add-pos" id="add-pos" value="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-assi" class="col-form-label">Assign To</label>
+                                    <input type="text" class="form-control" name="add-assi" id="add-assi" value="" placeholder="Biometric">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-comm" class="col-form-label">Comment</label>
+                                    <textarea type="text" class="form-control" name="add-comm" id="add-comm" value=""></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        title="Cancel">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Move To Returned">Add <i
+                                            class="bi bi-arrow-90deg-right"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Add Item -->
+        </div>
+        <div class="col-md-12">
+            <table class="table table-striped text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row">Item</th>
+                        <th scope="row">Serial</th>
+                        <th scope="row">Quantity</th>
+                        <th scope="row">Position</th>
+                        <th scope="row">Assigned To</th>
+                        <th scope="row">Comment</th>
+                        <th scope="row"></th>
+                    </tr>
+                </thead>
+                <tbody id="pcs_table">
+                    {% for stock_item in stock_categs_items %}
+                    <tr>
+                        <th scope="col">{{ loop.index0 +1 }}</th>
+                        <th scope="col">{{stock_item.item_name}}</th>
+                        <th scope="col" class="serial">{{stock_item.serial}}</th>
+                        <th scope="col">{{stock_item.quantity}}</th>
+                        <th scope="col">{{stock_item.position}}</th>
+                        <th scope="col" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{stock_item.agentstock.name}} {{stock_item.agentstock.l_name}}">{{stock_item.agentstock.bio}}</th>
+                        <th scope="col">{{stock_item.comment}}</th>
+                        <th scope="col"><a href="#" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editItem-{{stock_item.id}}"><i
+                                    class="bi bi-pencil"></i></a></th>
+                    </tr>
+                                 <!-- Start Edit Item -->
+             <div class="modal fade" id="editItem-{{stock_item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit {{stock_item.item_name}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('stock_routes.stockItemEdit')}}" method="post">
+                                <div class="mb-3">
+                                    <input type="hidden" class="form-control" name="edit-id" id="edit-id" value="{{stock_item.id}}">
+                                    <input type="hidden" class="form-control" name="cat-id" id="cat-id" value="{{stock_item_cat.categ}}">
+                                    <label for="stockItem" class="col-form-label">Item Name</label>
+                                    <input type="text" class="form-control" name="stockItem" id="add-stockItem" value="{{stock_item.item_name}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-serial" class="col-form-label">Serial</label>
+                                    <input type="text" class="form-control" name="add-serial" id="add-serial" value="{{stock_item.serial}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-quantity" class="col-form-label">Quantity</label>
+                                    <input type="number" class="form-control" name="add-quantity" id="add-quantity"
+                                        value="{{stock_item.quantity}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-pos" class="col-form-label">Position</label>
+                                    <input type="text" class="form-control" name="add-pos" id="add-pos" value="{{stock_item.position}}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-assi" class="col-form-label">Assign To</label>
+                                    <input type="text" class="form-control" name="edit-assi" id="edit-assi" value="{{stock_item.agentstock.bio}}" placeholder="Biometric">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="add-comm" class="col-form-label">Comment</label>
+                                    <textarea type="textarea" class="form-control" name="add-comm" id="add-comm" value="{{stock_item.comment}}">{{stock_item.comment}}</textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        title="Cancel">Cancel</button>
+                                            <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" title="Save">Save <i
+                                            class="bi bi-arrow-90deg-right"></i></button>
+                                </div>
+                            </form>
+                            <form action="{{url_for('stock_routes.stockItemDelete')}}" method="post">
+                                <input type="hidden" class="form-control" name="delete-id" id="delete-id" value="{{stock_item.id}}">
+                                <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Edit Item -->
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

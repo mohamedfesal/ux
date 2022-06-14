@@ -1,0 +1,21 @@
+<!--HFH Sheet Template -->
+{% extends "dashboard.html" %}
+{% block wfhsheet %}
+<div class="container-fluid">
+
+    <div class="row">
+  <!-- Start Error Handling Section -->
+  {%include 'error-handle.html'%}
+  <!-- End Error Handling Section -->    </div>
+</div>
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <button class="nav-link active" id="whf-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">WFH PCs</button>
+      <button class="nav-link" id="returned-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Returned PCs</button>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="whf-tab">{% include 'wfh.html'%}</div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="returned-tab">{% include 'returned.html'%}</div>
+  </div>
+{%endblock%}

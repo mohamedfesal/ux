@@ -1,0 +1,247 @@
+<!-- Start WFH Tracker Sheet -->
+<div class="col-md-12">
+  <div class="row">
+    <!-- Start Actions Section -->
+    <div class="col-12">
+      <!-- Import WFH PCs from Excel Sheet -->
+        <div class="collapse" id="import-wfh">
+          <div class="card card-body">
+            <div class="import-sheet card">
+              <div class="custom-file card-body">
+                <h3> Import From Excel Sheet</h3>
+                <form action="" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="upload-sheet">
+                  <input type="file" class="custom-file-input" id="wfh-sheet" name="sheet">
+                  <label class="custom-file-label" for="sheet">Choose file</label>
+                  <button class="btn btn-primary" type="submit">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Upload
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- End Import WFH PCs from Excel Sheet -->
+      <!-- Start Add Agent to WFH PCs -->
+      <div class="collapse" id="add-wfh">
+        <div class="card card-body">
+          <form id="add_wfh_pc" action="" method="post" enctype="multipart/form-data"
+            class="edit-item shadow p-3 mb-5 bg-body rounded">
+            <input type="hidden" name="add-wfh">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-3">
+                  <div>
+                    <label for="pc_no" class="form-label">PC Number</label>
+                    <input id="pc_no" name="pc_no" class="form-control" placeholder="55" value="">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="agent-bio" class="form-label">Agent's Bio</label>
+                  <input id="agent-bio" name="agentbio" class="form-control" placeholder="4172***" value="">
+                </div>
+                <div class="col-md-3">
+                  <label for="agent-tl" class="form-label">TL</label>
+                  <select id='agent-tl' name="agent-tl" class="form-select" aria-label="Default select example">
+                    <option selected>select TL</option>
+                    {% for tl in tls %}
+                    <option value="{{tl.id}}">{{tl.f_name}} {{tl.l_name}}</option>
+                    {%endfor%}
+                  </select>
+                </div>
+
+                <!-- <div class="col-md-3">
+              <div>
+                <label for="agentname" class="form-label">Agent's Name</label>
+                <input id="agentname" name="agentname" class="form-control" placeholder="Ahmed.." value="">
+              </div>
+            </div> -->
+                <div class="form-controls col-md-3">
+                  <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Submit Edits">Add WFH Agent<i class="bi bi-check"></i></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+       <!-- End Add Agent to WFH PCs -->
+    </div>
+    <!-- End Actions Section -->
+  </div>
+  <!-- Start WFH PCs Table -->
+  <div class="table-responsive">
+    <div class="table-title">
+      <div class="row">
+        <div class="col-sm-5">
+          <h2><b>WFH Table</b></h2>
+        </div>
+        <div class="col-sm-7">
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#add-wfh"
+            aria-expanded="false" aria-controls="add-wfh">
+            Add new to WFH
+          </button>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#import-wfh"
+            aria-expanded="false" aria-controls="import-wfh"><i class="bi bi-file-earmark-spreadsheet"></i>
+            <span>Import From Excel</span></button>
+          <a href="#" class="btn btn-secondary"><i class="bi bi-file-earmark-spreadsheet"></i>
+            <span>Export From Excel</span></a>
+        </div>
+      </div>
+    </div>
+    <!-- Delete Selected Rows from WFH Table -->
+    <form id='delete-selected-wfh' action="" method="post">
+      <input id='selected-wfh-items' type="hidden" name="delete-selected" value="">
+      <button class="btn btn-danger" type="submit">Delete Selected Records</button>
+    </form>
+    <!-- END Delete Selected Rows from WFH Table -->
+   
+    <!-- Send WFH Mail For Selected Rows from WFH Table -->
+    <form id='selected-wfh-form' action="" method="post">
+      <input id='send-wfh-items' type="hidden" name="wfh-mail-selected" value="">
+      <button class="btn btn-primary" type="submit">Send WFH Mail</button>
+    </form>
+    <!-- END Send WFH Mail For Selected Rows from WFH Table -->
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <!-- <th scope="row"><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+            data-bs-target="#confirm-modal">
+            <i class="bi bi-x"></i>
+          </button></th> -->
+          <th scope="row"></th>
+          <th scope="row">#</th>
+          <th scope="row">Bio</th>
+          <th scope="row">Name</th>
+          <th scope="row">PC No</th>
+          <th scope="row">Host Name</th>
+          <th scope="row">DID User</th>
+          <th scope="row">DID</th>
+          <th scope="row">Delivery Date</th>
+          <th scope="row">Delivered By</th>
+          <th scope="row">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pcinfo in wfh_table %}
+        <tr>
+          <!-- <th scope="col"><input class="form-check-input mt-0" type="checkbox" value="{{pcinfo.id}}" aria-label="Checkbox for following text input">          </th> -->
+          <th scope="col"><input type="checkbox" name='select-wfh' value="{{pcinfo.id}}"></th>
+          <th scope="col">{{ loop.index0 +1 }}</th>
+          <th scope="col">{{pcinfo.agentpc.bio}}</th>
+          <th scope="col">{{pcinfo.agentpc.name}} {{pcinfo.agentpc.l_name}}</th>
+          <th class="print-el" scope="col">{{pcinfo.station}}</th>
+          <th class="print-el" scope="col">{{pcinfo.hostname}}</th>
+          <th class="print-el" scope="col">{{pcinfo.pbxuser}}</th>
+          <th class="print-el" scope="col">{{pcinfo.ciscodid}}</th>
+          <th class="print-el" scope="col">{{pcinfo.wfhdate}}</th>
+          <th class="print-el" scope="col">{{pcinfo.dlv_by}}</th>
+          <th scope="col">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+              data-bs-target="#confirm-modal-{{pcinfo.id}}">
+              <i class="bi bi-x"></i>
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#moveToReturned-{{pcinfo.id}}">
+              <i class="bi bi-arrow-repeat"></i>
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="confirm-modal-{{pcinfo.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete Agent {{pcinfo.agentpc.bio}} from PC No: {{pcinfo.host_name}} ?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                      data-bs-placement="bottom" title="Cancel">Cancel</button>
+                    <a href="{{url_for('wfh_routes.deletewfh', id= pcinfo.id )}}"
+                      class="btn btn-danger edit-btn edit-btn"><i class="bi bi-x"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script>
+              var confirm_modal = document.getElementById('confirm-modal-{{pcinfo.id}}')
+              var myInput = document.getElementById('myInput')
+
+              confirm_modal.addEventListener('shown.bs.modal', function () {
+                myInput.focus()
+              })
+            </script>
+            <!-- Start Returned Modal -->
+            <div class="modal fade" id="moveToReturned-{{pcinfo.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Move PC No: {{pcinfo.host_name}} to Returned PCs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{{url_for('wfh_routes.returned')}}" method="post">
+                      <div class="mb-3 d-none">
+                        <label for="pc-statue" class="col-form-label">{{pcinfo.id}}</label>
+                        <input type="text" class="form-control" name="rd-pc-no" id="pc-statue" value="{{pcinfo.id}}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="pc-statue" class="col-form-label">PC Statue:</label>
+                        <input type="text" class="form-control" name="rd-pc-statue" id="pc-statue" value="Good">
+                      </div>
+                      <div class="mb-3">
+                        <label for="screens-statue" class="col-form-label">Screens Statue:</label>
+                        <input type="text" class="form-control" name="rd-screens-statue" id="screens-statue"
+                          value="Good">
+                      </div>
+                      <div class="mb-3">
+                        <label for="headset-statue" class="col-form-label">Headset Statue:</label>
+                        <input type="text" class="form-control" name="rd-headset-statue" id="headset-statue"
+                          value="Good">
+                      </div>
+                      <div class="mb-3">
+                        <label for="hdd-statue" class="col-form-label">HDD Health:</label>
+                        <input type="text" class="form-control" name="rd-hdd-statue" id="hdd-statue" value="100%">
+                      </div>
+                      <div class="mb-3">
+                        <label for="comment" class="col-form-label">Comment:</label>
+                        <textarea class="form-control" name="rd-comment" id="comment"></textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="tooltip"
+                          data-bs-placement="bottom" title="Cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                          data-bs-placement="bottom" title="Move To Returned">Move <i
+                            class="bi bi-arrow-90deg-right"></i></button>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- Start Returned Modal -->
+            <!-- Modal Control Script -->
+            <script>
+              var confirm_modal = document.getElementById('moveToReturned-{{pcinfo.id}}')
+              var myInput = document.getElementById('myInput')
+
+              confirm_modal.addEventListener('shown.bs.modal', function () {
+                myInput.focus()
+              })
+            </script>
+            <!-- Modal Control Script -->
+          </th>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+  <!-- End WFH PCs Table -->
+</div>
+<!-- Start WFH Tracker Sheet -->

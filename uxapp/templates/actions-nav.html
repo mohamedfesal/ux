@@ -1,0 +1,20 @@
+{% if url_for('stock_routes.stock') == request.path:%}
+<div class="categ-ctrl text-end">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCateg">
+      <i class="bi bi-plus-square"></i>
+    </button>
+</div>
+{%endif%}
+
+{% if url_for('req_routes.requests') == request.path:%}
+<div class="categ-ctrl text-end">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-dep">
+    New Depareture Request
+  </button>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new-ticket">
+    New Ticket
+  </button>
+</div>
+{%endif%}
+
+
